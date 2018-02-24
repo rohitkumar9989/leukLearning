@@ -4,14 +4,14 @@ import sys,os;
 import pickle
 
 #parametre du server a contacter
-SERVER = "127.0.0.1"
+SERVER_IP = "127.0.0.1"
 PORT = 8080
 
 #Création de la socket
 client1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client1.connect((SERVER, PORT))
+client1.connect((SERVER_IP, PORT))
 
-#recuperation des arguments passé en parametre lor de l'appel 
+#recuperation des arguments passé en parametre lor de l'appel
 #Exemlple 1 : python Phyton-Client.py c:\mesfics\ -s fic2.txt
 #Exemlple 2 : python Phyton-Client.py c:\mesfics\ -p fic1.txt
 
@@ -34,12 +34,12 @@ if (option=="-p"):
 	rep = lienrepertoire+nonfichier
 
 	#Verification de lexistence du fichier si le fichier existe on fait le traitement suivant
-	if os.path.exists(rep): 
+	if os.path.exists(rep):
 		print("Traitement de votre fichier........")
 
 		#Ouverture du fichier en lecture
 		mesdata = []
-		with open(rep) as fp:  
+		with open(rep) as fp:
 			for line in fp:
 				#formatage de la liste de donnees on supprime les nom des champs et on les concatene dans lordre suivant a envoyé au server
 				mesdata.append(line.replace('Numero','').replace('nom','').replace('prenom','').replace('adresse','').replace('email','').replace('service','').replace(':','').replace(';',','))
@@ -52,7 +52,7 @@ if (option=="-p"):
 
 		#Ici on ajoute a notre chaine le mot (emp) qui permetre au server de savoir le le service a invoqué
 		dataS = "emp"+data_to_send
-	
+
 		while True:
 			#On envoi maintenent la donnee au server
 			client1.send(bytes(dataS,'UTF-8'))
@@ -78,12 +78,12 @@ elif(option=="-s"):
 	rep = lienrepertoire+nonfichier
 
 	#Verification de lexistence du fichier si le fichier existe on fait le traitement suivant
-	if os.path.exists(rep): 
+	if os.path.exists(rep):
 		print("Traitement de votre fichier........")
 
 		#Ouverture du fichier en lecture
 		mesdata = []
-		with open(rep) as fp:  
+		with open(rep) as fp:
 			for line in fp:
 				#formatage de la liste de donnees on supprime les nom des champs et on les concatene dans lordre suivant a envoyé au server
 				mesdata.append(line.replace('Nomser','').replace('Resp','').replace(':','').replace(';',','))
@@ -96,7 +96,7 @@ elif(option=="-s"):
 
 		#Ici on ajoute a notre chaine le mot (ser) qui permettra au server de savoir le le service a invoqué
 		dataS = "ser"+data_to_send
-	
+
 		while True:
 			#On envoi maintenent les donnees au server
 			client1.send(bytes(dataS,'UTF-8'))
@@ -113,4 +113,3 @@ elif(option=="-s"):
 	else:
 		#Si le fichier que le client veut charger nexiste pas
 		print("le fichier nexiste pas")
-
